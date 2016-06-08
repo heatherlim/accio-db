@@ -56,6 +56,8 @@ public class Scraper {
         	// does valid name need to be something like self.validname this.validname Scraper.validname etc?
         	if (counter == 1 && validName(link.text())){
         		System.out.println(link.attr("abs:href") + " " + "(" + link.text() + ")");
+        	} else if(counter == 2 && link.text().equals("next 200")){
+        		System.out.println(link.attr("abs:href"));
         	}
         
         }
