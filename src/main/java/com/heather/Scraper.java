@@ -1,13 +1,7 @@
 package com.heather;
 
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-
 import org.jsoup.Jsoup;
-import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -28,11 +22,7 @@ public class Scraper {
     }
     
     private static Boolean validName(String text){
-    	String answer = null;
-    	if(text.toLowerCase().contains("(")){
-    		answer = text.substring(text.indexOf("(")+1,text.indexOf(")"));
-    	}
-    	if(answer == "I" || answer == "II" || !text.contains("(") && !text.toLowerCase().contains("gryffindor") && !text.toLowerCase().contains("slytherin") &&!text.toLowerCase().contains("hufflepuff") &&!text.toLowerCase().contains("ravenclaw") && !text.toLowerCase().contains("'s") && !text.toLowerCase().contains("boy") && !text.toLowerCase().contains("female") && !text.toLowerCase().contains("200")){
+    	if(!text.toLowerCase().contains("gryffindor") && !text.toLowerCase().contains("slytherin") &&!text.toLowerCase().contains("hufflepuff") &&!text.toLowerCase().contains("ravenclaw") && !text.toLowerCase().contains("'s") && !text.toLowerCase().contains("boy") && !text.toLowerCase().contains("female") && !text.toLowerCase().contains("200") && !text.toLowerCase().contains("unidentified") && !text.toLowerCase().contains("student") && !text.toLowerCase().contains("unidentified") && !text.toLowerCase().contains("shady character") && !text.toLowerCase().contains("inquisitorial")){
     		return true;
     	} else {
     		return false;
@@ -40,7 +30,7 @@ public class Scraper {
     }
     
     private static Elements siteLinks() throws IOException{
-    	return siteLinks("http://harrypotter.wikia.com/wiki/Category:Hogwarts_students?pagefrom=Shah%2C+Poonima%0APoonima+Shah#mw-pages");
+    	return siteLinks("http://harrypotter.wikia.com/wiki/Category:Hogwarts_students?pagefrom=Shady+Character#mw-pages");
     }
     
     private static Elements siteLinks(String url) throws IOException{
@@ -53,7 +43,6 @@ public class Scraper {
 	
 	public static void main(String[] args) throws IOException{
         int counter = 0;
-       // List<String> lastEntry = new ArrayList<String>();
         String lastEntry = "";
         
         for (Element link : siteLinks()) {
