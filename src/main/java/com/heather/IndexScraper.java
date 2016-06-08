@@ -6,9 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-
-
-public class Scraper {
+public class IndexScraper {
 	
     private static void print(String msg, Object... args) {
         System.out.println(String.format(msg, args));
@@ -37,12 +35,11 @@ public class Scraper {
         print("Fetching %s...", url);
         Document doc = Jsoup.connect(url).get();
         Elements links = doc.select("a[href]");
-        print("\nLinks: (%d)", links.size());
         return links;
     }
-	
-	public static void main(String[] args) throws IOException{
-        int counter = 0;
+    
+    private static void scrapedLinks() throws IOException{
+    	int counter = 0;
         String lastEntry = "";
         
         for (Element link : siteLinks()) {
@@ -61,6 +58,10 @@ public class Scraper {
         	}
         
         }
+    }
+	
+	public static void main(String[] args) throws IOException {
+        scrapedLinks();
     }
 	
 }
