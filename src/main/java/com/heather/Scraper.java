@@ -30,25 +30,29 @@ public class Scraper {
     	if(text.toLowerCase().contains("(")){
     		answer = text.substring(text.indexOf("(")+1,text.indexOf(")"));
     	}
-    	if(answer == "I" || answer == "II" || !text.contains("(") && !text.toLowerCase().contains("gryffindor") && !text.toLowerCase().contains("slytherin") &&!text.toLowerCase().contains("hufflepuff") &&!text.toLowerCase().contains("ravenclaw") && !text.toLowerCase().contains("'s") && !text.toLowerCase().contains("boy") && !text.toLowerCase().contains("female")){
+    	if(answer == "I" || answer == "II" || !text.contains("(") && !text.toLowerCase().contains("gryffindor") && !text.toLowerCase().contains("slytherin") &&!text.toLowerCase().contains("hufflepuff") &&!text.toLowerCase().contains("ravenclaw") && !text.toLowerCase().contains("'s") && !text.toLowerCase().contains("boy") && !text.toLowerCase().contains("female") && !text.toLowerCase().contains("200")){
     		return true;
     	} else {
     		return false;
     	}
     }
-	
-	public static void main(String[] args) throws IOException {
-		
-        Validate.isTrue(args.length == 1, "usage: supply url to fetch");
-        String url = "http://harrypotter.wikia.com/wiki/Category:Hogwarts_students";
+    
+    private static Elements siteLinks() throws IOException{
+    	return siteLinks("http://harrypotter.wikia.com/wiki/Category:Hogwarts_students");
+    }
+    
+    private static Elements siteLinks(String url) throws IOException{
+    	//String url = ;
         print("Fetching %s...", url);
         Document doc = Jsoup.connect(url).get();
         Elements links = doc.select("a[href]");
-        
         print("\nLinks: (%d)", links.size());
-        
+        return links;
+    }
+	
+	public static void main(String[] args) throws IOException{
         int counter = 0;
-        for (Element link : links) {
+        for (Element link : siteLinks()) {
             //print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
         	if (link.text().equals("next 200")){
         		counter += 1;	
@@ -62,7 +66,5 @@ public class Scraper {
         
         }
     }
-
-
 	
 }
