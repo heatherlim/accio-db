@@ -1,7 +1,9 @@
 package com.heather;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -38,11 +40,10 @@ public class Scraper {
     }
     
     private static Elements siteLinks() throws IOException{
-    	return siteLinks("http://harrypotter.wikia.com/wiki/Category:Hogwarts_students");
+    	return siteLinks("http://harrypotter.wikia.com/wiki/Category:Hogwarts_students?pagefrom=Shah%2C+Poonima%0APoonima+Shah#mw-pages");
     }
     
     private static Elements siteLinks(String url) throws IOException{
-    	//String url = ;
         print("Fetching %s...", url);
         Document doc = Jsoup.connect(url).get();
         Elements links = doc.select("a[href]");
@@ -52,16 +53,22 @@ public class Scraper {
 	
 	public static void main(String[] args) throws IOException{
         int counter = 0;
+       // List<String> lastEntry = new ArrayList<String>();
+        String lastEntry = "";
+        
         for (Element link : siteLinks()) {
             //print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
-        	if (link.text().equals("next 200")){
-        		counter += 1;	
-        	}
+        	if (link.text().contains("200") && !lastEntry.contains("200")){
+        		counter += 1;
+        		lastEntry = link.text();
+        	} 
         	// does valid name need to be something like self.validname this.validname Scraper.validname etc?
         	if (counter == 1 && validName(link.text())){
+        		lastEntry = link.text();
         		System.out.println(link.attr("abs:href") + " " + "(" + link.text() + ")");
-        	} else if(counter == 2 && link.text().equals("next 200")){
+        	} else if(counter == 2){
         		System.out.println(link.attr("abs:href"));
+        		break;
         	}
         
         }
