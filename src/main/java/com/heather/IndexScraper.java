@@ -53,6 +53,8 @@ public class IndexScraper {
         	// does valid name need to be something like self.validname this.validname Scraper.validname etc?
         	if (counter == 1 && validName(link.text())){
         		lastEntry = link.text();
+        		
+        		// Student scraper and creator goes here
         		System.out.println(link.attr("abs:href") + " " + "(" + link.text() + ")");
         	} else if (link.text().equals("next 200")){
         		nextCounter += 1;
@@ -61,10 +63,6 @@ public class IndexScraper {
         		goToNextPage(nextPage);
         		nextCounter = 0;
         	} 
-        	
-//        	if (nextCounter == 2){
-//        		goToNextPage(nextPage);
-//        	} 
         
         }
 		return null;
@@ -75,7 +73,7 @@ public class IndexScraper {
     }
 	
 	public static void main(String[] args) throws IOException {
-		scrapedLinks();
+		//scrapedLinks();
     }
 	
 }
