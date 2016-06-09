@@ -57,11 +57,14 @@ public class IndexScraper {
         	} else if (link.text().equals("next 200")){
         		nextCounter += 1;
         		nextPage = link.attr("abs:href");
-        	}
-        	
-        	if (nextCounter == 2){
+        	} else if (nextCounter == 2){
         		goToNextPage(nextPage);
+        		nextCounter = 0;
         	} 
+        	
+//        	if (nextCounter == 2){
+//        		goToNextPage(nextPage);
+//        	} 
         
         }
 		return null;
