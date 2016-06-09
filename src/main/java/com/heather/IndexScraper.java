@@ -27,8 +27,8 @@ public class IndexScraper {
     	}
     }
     
-    private static Elements siteLinks() throws IOException{
-    	return siteLinks("http://harrypotter.wikia.com/wiki/Category:Hogwarts_students?pagefrom=Shady+Character#mw-pages");
+    private static Elements scrapedLinks() throws IOException{
+    	return scrapedLinks("http://harrypotter.wikia.com/wiki/Category:Hogwarts_students");
     }
     
     private static Elements siteLinks(String url) throws IOException{
@@ -38,11 +38,13 @@ public class IndexScraper {
         return links;
     }
     
-    private static void scrapedLinks() throws IOException{
+    private static Elements scrapedLinks(String url) throws IOException{
     	int counter = 0;
+    	int nextCounter = 0;
         String lastEntry = "";
+        String nextPage = "";
         
-        for (Element link : siteLinks()) {
+        for (Element link : siteLinks(url)) {
             //print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
         	if (link.text().contains("200") && !lastEntry.contains("200")){
         		counter += 1;
@@ -52,16 +54,25 @@ public class IndexScraper {
         	if (counter == 1 && validName(link.text())){
         		lastEntry = link.text();
         		System.out.println(link.attr("abs:href") + " " + "(" + link.text() + ")");
-        	} else if(counter == 2){
-        		System.out.println(link.attr("abs:href"));
-        		break;
+        	} else if (link.text().equals("next 200")){
+        		nextCounter += 1;
+        		nextPage = link.attr("abs:href");
         	}
+        	
+        	if (nextCounter == 2){
+        		goToNextPage(nextPage);
+        	} 
         
         }
+		return null;
+    }
+    
+    private static void goToNextPage(String nextUrl) throws IOException {
+    	scrapedLinks(nextUrl);
     }
 	
 	public static void main(String[] args) throws IOException {
-        scrapedLinks();
+		scrapedLinks();
     }
 	
 }
