@@ -28,15 +28,40 @@ public class StudentScraper {
 		return Arrays.asList(array);
 	}
 	
-	public static void studentDetails() throws IOException{
-		List list = studentDetailsList();
-		int detailIndex = list.indexOf("Gender") + 1;
-		Object gender = list.get(detailIndex);
+	public static void studentGender(List studentDet) throws IOException{
+		int detailIndex = studentDet.indexOf("Gender") + 1;
+		Object gender = studentDet.get(detailIndex);
 		System.out.println(gender);
 	}
 	
+	public static void studentSpecies(List studentDet) throws IOException{
+		int detailIndex = studentDet.indexOf("Species") + 1;
+		Object species = studentDet.get(detailIndex);
+		System.out.println(species);
+	}
+	
+	public static void studentHouse(List studentDet) throws IOException{
+		int detailIndex = studentDet.indexOf("House") + 1;
+		Object house = studentDet.get(detailIndex);
+		System.out.println(((String) house).replaceAll("\\[.*\\]", ""));
+	}
+	
+	public static void studentBlood(List studentDet) throws IOException{
+		int detailIndex = studentDet.indexOf("Blood") + 2;
+		Object blood = studentDet.get(detailIndex);
+		System.out.println(blood);
+	}
+	
+	public static void studentDetails() throws IOException{
+		List list = studentDetailsList();
+		studentGender(list);
+		studentSpecies(list);
+		studentHouse(list);
+		studentBlood(list);
+	}
+	
 	public static void main(String[] args) throws IOException {
-        studentDetails();
+       studentDetails();
     }
 
     private static void print(String msg, Object... args) {
