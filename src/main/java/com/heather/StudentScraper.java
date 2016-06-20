@@ -1,10 +1,7 @@
 package com.heather;
 import org.jsoup.Jsoup;
-import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +10,7 @@ public class StudentScraper {
 	
 	
 	public static String scrapedText() throws IOException{
-        String url = "http://harrypotter.wikia.com/wiki/Dominique_Weasley";
+        String url = "http://harrypotter.wikia.com/wiki/Filius_Flitwick";
         print("Fetching %s...", url);
 
         Document doc = Jsoup.connect(url).get();
@@ -28,16 +25,16 @@ public class StudentScraper {
 		return Arrays.asList(array);
 	}
 	
-	public static void studentGender(List studentDet) throws IOException{
+	public static void studentGender(List studentDet) {
 		int detailIndex = studentDet.indexOf("Gender") + 1;
 		Object gender = studentDet.get(detailIndex);
 		System.out.println(gender);
 	}
 	
-	public static void studentSpecies(List studentDet) throws IOException{
+	public static void studentSpecies(List studentDet){
 		
 		// If gender index and species index has a difference of 3?
-		int genderIndex = studentDet.indexOf("Gender") + 1;
+		int genderIndex = studentDet.indexOf("Gender");
 		int detailIndex = studentDet.indexOf("Species") + 1;
 		
 		if (genderIndex - detailIndex >= 3){
@@ -45,27 +42,29 @@ public class StudentScraper {
 				Object species = studentDet.get(i);
 				System.out.println(species);
 			}
-		} 
+		} else {
+			System.out.println(studentDet.get(detailIndex));
+		}
 		
 	}
 	
-	public static void studentHouse(List studentDet) throws IOException{
+	public static void studentHouse(List studentDet) {
 		int detailIndex = studentDet.indexOf("House") + 1;
-		Object house = studentDet.get(detailIndex);
+		String house = studentDet.get(detailIndex).toString().replaceAll("\\[.*\\]", "");
 		
-		if (studentDet.contains("House") && (house.toString() == "Gryffindor" || house.toString() == "Hufflepuff" || house.toString() == "Ravenclaw" || house.toString() == "Slytherin")){
-			System.out.println(((String) house).replaceAll("\\[.*\\]", ""));
+		if (house.equals("Gryffindor") || house.equals("Hufflepuff") || house.equals("Ravenclaw") || house.equals("Slytherin")){
+			System.out.println(house);
 		} else {
 			System.out.println("Unknown");
 		}
 		
 	}
 	
-	public static void studentBlood(List studentDet) throws IOException{
+	public static void studentBlood(List studentDet) {
 		if (studentDet.contains("Blood")){
 			int detailIndex = studentDet.indexOf("Blood") + 2;
-			Object blood = ((String) studentDet.get(detailIndex)).replaceAll(",","");
-			System.out.println(blood);
+			String blood = ((String) studentDet.get(detailIndex)).toString().replaceAll(",","");
+			System.out.println(blood.replaceAll("\\[.*\\]", ""));
 		} else {
 			System.out.println("Unknown");
 		}
