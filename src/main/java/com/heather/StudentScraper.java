@@ -13,7 +13,7 @@ public class StudentScraper {
 	
 	
 	public static String scrapedText() throws IOException{
-        String url = "http://harrypotter.wikia.com/wiki/Astrix_A.";
+        String url = "http://harrypotter.wikia.com/wiki/Dominique_Weasley";
         print("Fetching %s...", url);
 
         Document doc = Jsoup.connect(url).get();
@@ -35,22 +35,36 @@ public class StudentScraper {
 	}
 	
 	public static void studentSpecies(List studentDet) throws IOException{
+		
+		// If gender index and species index has a difference of 3?
+		int genderIndex = studentDet.indexOf("Gender") + 1;
 		int detailIndex = studentDet.indexOf("Species") + 1;
-		Object species = studentDet.get(detailIndex);
-		System.out.println(species);
+		
+		if (genderIndex - detailIndex >= 3){
+			for (int i = detailIndex; i < genderIndex; i ++){
+				Object species = studentDet.get(i);
+				System.out.println(species);
+			}
+		} 
+		
 	}
 	
 	public static void studentHouse(List studentDet) throws IOException{
 		int detailIndex = studentDet.indexOf("House") + 1;
 		Object house = studentDet.get(detailIndex);
-		System.out.println(((String) house).replaceAll("\\[.*\\]", ""));
+		
+		if (studentDet.contains("House") && (house.toString() == "Gryffindor" || house.toString() == "Hufflepuff" || house.toString() == "Ravenclaw" || house.toString() == "Slytherin")){
+			System.out.println(((String) house).replaceAll("\\[.*\\]", ""));
+		} else {
+			System.out.println("Unknown");
+		}
+		
 	}
 	
 	public static void studentBlood(List studentDet) throws IOException{
-		// First find if blood is there
 		if (studentDet.contains("Blood")){
 			int detailIndex = studentDet.indexOf("Blood") + 2;
-			Object blood = studentDet.get(detailIndex);
+			Object blood = ((String) studentDet.get(detailIndex)).replaceAll(",","");
 			System.out.println(blood);
 		} else {
 			System.out.println("Unknown");
