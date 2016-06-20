@@ -47,9 +47,14 @@ public class StudentScraper {
 	}
 	
 	public static void studentBlood(List studentDet) throws IOException{
-		int detailIndex = studentDet.indexOf("Blood") + 2;
-		Object blood = studentDet.get(detailIndex);
-		System.out.println(blood);
+		// First find if blood is there
+		if (studentDet.contains("Blood")){
+			int detailIndex = studentDet.indexOf("Blood") + 2;
+			Object blood = studentDet.get(detailIndex);
+			System.out.println(blood);
+		} else {
+			System.out.println("Unknown");
+		}
 	}
 	
 	public static void studentDetails() throws IOException{
