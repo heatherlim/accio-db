@@ -12,13 +12,6 @@ public class CourseScraper {
     private static void print(String msg, Object... args) {
         System.out.println(String.format(msg, args));
     }
-
-    private static String trim(String s, int width) {
-        if (s.length() > width)
-            return s.substring(0, width-1) + ".";
-        else
-            return s;
-    }
     
     private static Elements siteLinks(String url) throws IOException{
         print("Fetching %s...", url);
