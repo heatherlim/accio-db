@@ -20,18 +20,30 @@ public class CourseScraper {
             return s;
     }
     
-   
     private static Elements siteLinks(String url) throws IOException{
         print("Fetching %s...", url);
         Document doc = Jsoup.connect(url).get();
-        Elements links = doc.select("a[href]");
-        return links;
+        Elements html = doc.select("figure + ul");
+		return html.select("a[href]");
     }
     
+    
+    private static Boolean validName(String text){
+    	if (!text.contains("school year") && !text.contains(".jpg") && !text.equals("") && !text.contains("1")){
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+   
+    
 	public static void main(String[] args) throws IOException {
-		 for (Element link : siteLinks("http://harrypotter.wikia.com/wiki/Hogwarts_subjects")) {
-	            print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
-	        }
-		
+		for (Element link : siteLinks("http://harrypotter.wikia.com/wiki/Hogwarts_subjects")){
+			if(validName(link.text())){
+				// Class creation can go here
+				System.out.println(link.attr("abs:href") + " " + link.text());
+			}
+		}
     }
 }
